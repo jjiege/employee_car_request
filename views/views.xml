@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record id="view_car_request_form" model="ir.ui.view">
+      <field name="name">view.car.request.form</field>
+      <field name="model">car.request</field>
+      <field name="arch" type="xml">
+        <form name="Car Request Form">
+        <header>
+        <button name="confirm_request" string="Confirm" class="oe_highlight" status="draft" type="object" attrs="{'invisible':[('state','!=','draft')]}"></button>
+        <button name="validate_request" string="Validate" class="oe_highlight" status="confirm" type="object" attrs="{'invisible':[('state','!=','confirm')]}" groups="hr.group_hr_user"></button>
+        <button name="refuse_request" string="Refuse" class="oe_highlight" status="validate" type="object" attrs="{'invisible':[('state','!=','validate')]}" groups="hr.group_hr_manager"></button>
+        <button name="approve_request" string="Approve" class="oe_highlight" status="validate" type="object" attrs="{'invisible':[('state','!=','validate')]}" groups="hr.group_hr_user,hr.group_hr_manager"></button>
+          <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate"/>
+        </header>
+          <sheet>
+            <div class="oe_title">
+              <label for="name" class="oe_edit_only"></label>
+              <h1><field name="name" placeholder="Request"></field></h1>
+            </div>
+            <group>
+              <group>
+                <field name="date_from"/>
+                <field name="date_to"/>
+              </group>
+              <group>
+                <field name="employee_id"/>
+                <field name="car_id"/>
+              </group>
+            </group>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers"/>
+            <field name="message_ids" widget="mail_thread"/>
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_car_request_tree" model="ir.ui.view">
+      <field name="name">view.car.request.tree</field>
+      <field name="model">car.request</field>
+      <field name="arch" type="xml">
+        <tree string="Car Request Tree">
+          <field name="employee_id"></field>
+          <field name="car_id"></field>
+          <field name="name"></field>
+          <field name="date_from"></field>
+          <field name="date_to"></field>
+        </tree>
+      </field>
+    </record>
+
+    <record id="action_car_request_views" model="ir.actions.act_window">
+      <field name="name">Car Request</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">car.request</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Car Request</p>
+        <p>Click to add a car request</p>
+      </field>
+    </record>
+
+    <menuitem id="menu_car_request_root" name="Car Request" sequence="10"/>
+    <menuitem id="menu_car_request_category" name="Car Request" parent="menu_car_request_root" sequence="1"/>
+    <menuitem id="menu_car_request" name="Car Request" parent="menu_car_request_category" action="action_car_request_views" sequence="1"/>
+  </data>
+</odoo>
